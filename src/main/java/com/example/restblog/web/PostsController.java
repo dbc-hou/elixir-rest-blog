@@ -6,7 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
-
+@CrossOrigin
 @Slf4j
 @RestController
 @RequestMapping(value="/api/posts", headers="Accept=application/json")
