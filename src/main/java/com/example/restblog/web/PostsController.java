@@ -31,8 +31,8 @@ public class PostsController {
     }
 
     @PutMapping("{id}")
-    private void updatePost(@PathVariable long id, @RequestBody Post thisPost) {
-        System.out.println("Post #" + id + " updated: " + thisPost);
+    private void updateUser(@PathVariable long id, @RequestBody Post thisPost) {
+        System.out.println("Uwer #" + id + " updated: " + thisPost);
     }
 
     @DeleteMapping("{id}")
