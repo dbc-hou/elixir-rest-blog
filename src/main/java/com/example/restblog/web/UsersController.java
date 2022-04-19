@@ -5,6 +5,7 @@ import com.example.restblog.data.User;
 import lombok.*;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -53,7 +54,7 @@ public class UsersController {
     }
 
     @PutMapping("{id}/password")
-    private void updatePassword(@PathVariable Long id, @RequestParam(required = false) String oldPassword, @RequestParam String newPassword) {
+    private void updatePassword(@PathVariable Long id, @RequestParam(required = false) String oldPassword, @Valid @Size(min = 3) @RequestParam String newPassword) {
         if (newPassword == oldPassword) {
             System.out.println("Sorry, you may not repeat your previous password");
         } else if (newPassword.length() <= 2) {
