@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static java.time.temporal.TemporalQueries.localDate;
-
+@CrossOrigin
 @RestController
 @RequestMapping(value = "api/users", headers = "Accept=application/json")
 public class UsersController {
@@ -24,6 +24,21 @@ public class UsersController {
     private User getByID(@PathVariable long userId) {
         User newUser = new User();
         newUser.setId(userId);
+        newUser.setUsername("Joseph diMaggio");
+        newUser.setEmail("jdimaggio@nyyankees.com");
+        newUser.setPassword("M@rilyn123");
+        return newUser;
+    }
+    @GetMapping("/username")
+    private User getByUserName(@RequestParam String username) {
+        User newUser = new User();
+        newUser.setUsername(username);
+        return newUser;
+    }
+    @GetMapping("/email")
+    private User getByEmail(@RequestParam String email) {
+        User newUser = new User();
+        newUser.setEmail(email);
         return newUser;
     }
 
@@ -35,6 +50,17 @@ public class UsersController {
     @PutMapping("{id}")
     private void updateUser(@PathVariable long id, @RequestBody User thisUser) {
         System.out.println("User #" + id + " has been updated." + thisUser);
+    }
+
+    @PutMapping("{id}/password")
+    private void updatePassword(@PathVariable Long id, @RequestParam(required = false) String oldPassword, @RequestParam String newPassword) {
+        if (newPassword == oldPassword) {
+            System.out.println("Sorry, you may not repeat your previous password");
+        } else if (newPassword.length() <= 2) {
+            System.out.println("Please make sure that your password is at least 3 characters in length.");
+        } else {
+            System.out.println("Password for user #" + id + " has been updated.");
+        }
     }
 
     @DeleteMapping("{id}")
