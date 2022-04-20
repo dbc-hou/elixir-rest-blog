@@ -22,6 +22,11 @@ export default function User(props) {
                     <button id="newPasswordSubmit" type="password" class="mb-2" data-id="${props.userInfo.id}">Change It!</button>
                 </form>
             </div>
+            <div id="postlist">
+                ${this.props.user.posts.map(post => {
+                    return `<h5>${post.title}</h5>`})
+                    .join(" ")}
+            </div>
         </main>
     `;
 }
@@ -44,12 +49,12 @@ function updatePWListener() {
     console.log("Old password for user #" + currentID + " = " + oldPW);
     let newPW = $("newPasswordBox").val();
     console.log("New password = " + newPW);
-    fetch("http://localhost:8081/api/users", myRequest)
+    fetch(`${BASE_URI}${uriExtra}?newPassword=${newPassword}`, request)
         .then(res => {
-            console.log(res.status);
-            createView("/users")
+            console.log(`${request.method} SUCCESS: ${res.status}`);
         }).catch(error => {
-        console.log(error);
+        console.log(`${request.method} ERROR: ${error}`);
+    }).finally(() => {
         createView("/users");
     });
     }

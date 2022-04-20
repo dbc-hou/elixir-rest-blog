@@ -2,7 +2,7 @@ import createView from "../createView.js";
 import fetchData from "../fetchData.js";
 
 var myMethod = "POST";
-var currentPostId = 1;
+var currentPostId;
 
 //All this does is return a long, complicated string of html, css, & object properties expressed in jquery.
 export default function PostIndex(props) {
@@ -19,6 +19,7 @@ export default function PostIndex(props) {
             <div id="posts-container" class="container-fluid">
                 ${props.posts.map(post => `<h3 class="fw-bold" id="title-${post.id}">${post.title}</h3>
                     <h4 id="content-${post.id}">${post.content}</h4>
+                   
                     <a href="#" class="edit-link" data-id="${post.id}">Edit</a>
                     <a href="#" class="delete-link" data-id="${post.id}">Delete</a></p>`).join('')}   
             </div>
@@ -51,34 +52,44 @@ export function PostsEvent() {
 }
 function attachAddListener () {
     $("#add-post-btn").click(function (e) {
-        if (myMethod == "POST") {
-            const myTitle = $("#add-post-title").val();
-            const myContent = $("#add-post-content").val();
-            const myPost = {};
-            myPost.title = myTitle;
-            myPost.content = myContent;
-            const myRequest = {};
-            myRequest.method = myMethod;
-            myRequest.headers = {'Content-Type': 'application/json'};
-            myRequest.body = JSON.stringify(myPost);
-            } else {
-                $("#title-" + currentPostId).text($("#add-post-title").val());
-                $("#content-" + currentPostId).text($("#add-post-content").val());
-            }
-        fetch("http://localhost:8081/api/posts", myRequest)
-            .then(res => {
-                console.log(res.status);
-                createView("/posts")
-            }).catch(error => {
-            console.log(error);
-            createView("/posts");
-        });
-    });
+        const myRequest = {};
+
+        const myTitle = $("#add-post-title").val();
+        const myContent = $("#add-post-content").val();
+        const myPost = {};
+        myPost.title = myTitle;
+        myPost.content = myContent;
+        myRequest.method = myMethod;
+        myRequest.headers = {'Content-Type': 'application/json'};
+        myRequest.body = JSON.stringify(myPost);
+        if (myMethod == "PUT") {
+            fetch("http://localhost:8081/api/posts/" + currentPostId, myRequest)
+                .then(res => {
+                    console.log(res.status);
+                    createView("/posts")
+                }).catch(error => {
+                console.log(error);
+                createView("/posts");
+            });
+        } else if (myMethod == "POST") {
+            fetch("http://localhost:8081/api/posts", myRequest)
+                .then(res => {
+                    console.log(res.status);
+                    createView("/posts")
+                }).catch(error => {
+                console.log(error);
+                createView("/posts");
+            });
+        }
+        myMethod = "POST";
+    })
 }
 
 function attachEditListener() {
     $(".edit-link").click(function () {
         myMethod = "PUT";
+        console.log(currentPostId);
+        console.log($(this).data("id"));
         $("#add-post-btn").text("Update");
         const postId = $(this).data("id");
         const postTitle = $("#title-" + postId).text();

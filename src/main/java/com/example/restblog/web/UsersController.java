@@ -7,17 +7,20 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.Size;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import static java.time.temporal.TemporalQueries.localDate;
 @CrossOrigin
 @RestController
 @RequestMapping(value = "api/users", headers = "Accept=application/json")
+
 public class UsersController {
+    private Collection<Post> posts;
     private List<User> getAll() {
         ArrayList<User> users = new ArrayList<>();
-        users.add(new User(1L, "dbchou", "david.collins.hou@gmail.com","COYIin2022",User.Role.ADMIN));
-        users.add(new User(2L, "gisele82", "gisele82@msn.com", "GizzyWork21",User.Role.USER));
+        users.add(new User(1L, "dbchou", "david.collins.hou@gmail.com","COYIin2022",null,User.Role.ADMIN, posts));
+        users.add(new User(2L, "gisele82", "gisele82@msn.com", "GizzyWork21",null,User.Role.USER, posts));
         return users;
     }
 
