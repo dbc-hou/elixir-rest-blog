@@ -2,25 +2,32 @@ package com.example.restblog.web;
 
 import com.example.restblog.data.Post;
 import com.example.restblog.data.User;
-import lombok.*;
+import com.example.restblog.data.UsersRepository;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.Size;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
-import static java.time.temporal.TemporalQueries.localDate;
 @CrossOrigin
 @RestController
 @RequestMapping(value = "api/users", headers = "Accept=application/json")
 
 public class UsersController {
+    private final UsersRepository ur;
     private Collection<Post> posts;
+
+    public UsersController(UsersRepository ur) {
+        this.ur = ur;
+    }
+
     private List<User> getAll() {
         ArrayList<User> users = new ArrayList<>();
-        users.add(new User(1L, "dbchou", "david.collins.hou@gmail.com","COYIin2022",null,User.Role.ADMIN, posts));
-        users.add(new User(2L, "gisele82", "gisele82@msn.com", "GizzyWork21",null,User.Role.USER, posts));
+//        users.add(new User(1L, "dbchou", "david.collins.hou@gmail.com","COYIin2022",null,User.Role.ADMIN));
+//        users.add(new User(2L, "gisele82", "gisele82@msn.com", "GizzyWork21",null,User.Role.USER));
         return users;
     }
 
@@ -28,9 +35,6 @@ public class UsersController {
     private User getByID(@PathVariable long userId) {
         User newUser = new User();
         newUser.setId(userId);
-        newUser.setUsername("Joseph diMaggio");
-        newUser.setEmail("jdimaggio@nyyankees.com");
-        newUser.setPassword("M@rilyn123");
         return newUser;
     }
     @GetMapping("/username")
@@ -48,7 +52,8 @@ public class UsersController {
 
     @PostMapping
     private void createUser(@RequestBody User newUser) {
-        System.out.println("User # " + newUser.getUsername() + " has just been added.");
+        newUser.setRole(User.Role.USER);
+        ur.save(newUser);
     }
 
     @PutMapping("{id}")

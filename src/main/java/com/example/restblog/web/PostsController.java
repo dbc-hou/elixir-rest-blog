@@ -1,24 +1,27 @@
 package com.example.restblog.web;
 
-import com.example.restblog.data.Post;
+import com.example.restblog.data.*;
 //import com.example.restblog.data.PostRepository;
-import com.example.restblog.data.PostsRepository;
-import com.example.restblog.data.User;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
-import java.util.ArrayList;
-import java.util.List;
+
+import java.util.*;
+
 @CrossOrigin
 @Slf4j
 @RestController
 @RequestMapping(value="/api/posts", headers="Accept=application/json")
 public class PostsController {
-    private PostsRepository pr;
-    private static final User author1 = new User(1L,"donalddux","ddux@disney.com","",null, User.Role.USER,null);
-    private static final User author2 = new User(2L,"mickeymus","mmus@disney.com","",null, User.Role.ADMIN,null);
+    private final PostsRepository pr;
+    private final UsersRepository ur;
+    private final CategoriesRepository cr;
+//    private static final User author1 = new User(1L,"donalddux","ddux@disney.com","",null, User.Role.USER,null);
+//    private static final User author2 = new User(2L,"mickeymus","mmus@disney.com","",null, User.Role.ADMIN,null);
 
-    public PostsController(PostsRepository pr) {
+    public PostsController(PostsRepository pr, UsersRepository ur, CategoriesRepository cr) {
         this.pr = pr;
+        this.ur = ur;
+        this.cr = cr;
     }
 
     @GetMapping
@@ -39,9 +42,13 @@ public class PostsController {
 
     @PostMapping
     private void createPost(@RequestBody Post newPost) {
-        Post postToAdd = new Post(newPost.getTitle(),newPost.getContent());
+        newPost.setAuthor(ur.getById(2L));
+        List<Category> categories = new ArrayList<>();
+        categories.add(cr.findCategoryByName("soccer"));
+        categories.add(cr.findCategoryByName("literature"));
+        newPost.setCategories(categories);
     //Persist the post to the DB
-        pr.save(postToAdd);
+        pr.save(newPost);
         System.out.println("Post created.");
     }
 
