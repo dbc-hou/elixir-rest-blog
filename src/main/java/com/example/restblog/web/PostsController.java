@@ -18,6 +18,7 @@ public class PostsController {
 //    private static final User author1 = new User(1L,"donalddux","ddux@disney.com","",null, User.Role.USER,null);
 //    private static final User author2 = new User(2L,"mickeymus","mmus@disney.com","",null, User.Role.ADMIN,null);
 
+
     public PostsController(PostsRepository pr, UsersRepository ur, CategoriesRepository cr) {
         this.pr = pr;
         this.ur = ur;
@@ -67,7 +68,14 @@ public class PostsController {
         pr.delete(postToDelete);
         System.out.println("Post #" + id + " deleted.");
     }
+    @GetMapping("searchPostsByCategory")
+    private List<Post> searchPostsByCategory(@RequestParam String category) {
+        return pr.getPostsByCategories(cr.findCategoryByName(category));
+    }
 
+    private List<Post> searchPostsByKeyword(@RequestParam String term) {
+        return pr.searchByTitleLike(term);
+    }
 //    @PostMapping
 //    private void createPost(@RequestBody Post newPost) {
 //        try {

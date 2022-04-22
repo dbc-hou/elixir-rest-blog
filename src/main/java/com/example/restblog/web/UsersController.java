@@ -6,11 +6,7 @@ import com.example.restblog.data.UsersRepository;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.Size;
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @CrossOrigin
 @RestController
@@ -32,10 +28,8 @@ public class UsersController {
     }
 
     @GetMapping("{userId}")
-    private User getByID(@PathVariable long userId) {
-        User newUser = new User();
-        newUser.setId(userId);
-        return newUser;
+    private Optional<User> getByID(@PathVariable long userId) {
+        return ur.findById(userId);
     }
     @GetMapping("/username")
     private User getByUserName(@RequestParam String username) {
@@ -63,13 +57,19 @@ public class UsersController {
 
     @PutMapping("{id}/password")
     private void updatePassword(@PathVariable Long id, @RequestParam(required = false) String oldPassword, @Valid @Size(min = 3) @RequestParam String newPassword) {
-        if (newPassword == oldPassword) {
-            System.out.println("Sorry, you may not repeat your previous password");
-        } else if (newPassword.length() <= 2) {
-            System.out.println("Please make sure that your password is at least 3 characters in length.");
-        } else {
-            System.out.println("Password for user #" + id + " has been updated.");
+        User u = ur.getById(id);
+        oldPassword = u.getPassword();
+        if (newPassword != oldPassword || newPassword.length() > 2) {
+            u.setPassword(newPassword);
+            ur.save(u);
         }
+//        if (newPassword == oldPassword) {
+//            System.out.println("Sorry, you may not repeat your previous password");
+//        } else if (newPassword.length() <= 2) {
+//            System.out.println("Please make sure that your password is at least 3 characters in length.");
+//        } else {
+//            System.out.println("Password for user #" + id + " has been updated.");
+//        }
     }
 
     @DeleteMapping("{id}")
