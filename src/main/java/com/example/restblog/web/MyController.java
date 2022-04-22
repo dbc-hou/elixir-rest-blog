@@ -1,43 +1,22 @@
 package com.example.restblog.web;
 
-//import com.example.restblog.data.*;
-//import com.example.restblog.data.PostRepository;
 import com.example.restblog.data.*;
-
-//import lombok.AllArgsConstructor;
 import com.example.restblog.services.EmailService;
-import lombok.NoArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @CrossOrigin
-@Slf4j
 @RestController
-//@AllArgsConstructor
-@NoArgsConstructor
-@RequestMapping(value="/api/posts", headers="Accept=application/json")
-public class PostsController {
-    @Autowired
-    private PostsRepository pr;
-    @Autowired
-    private UsersRepository ur;
-    @Autowired
-    private CategoriesRepository cr;
-    @Autowired
-    private EmailService ems;
-//    private static final User author1 = new User(1L,"donalddux","ddux@disney.com","",null, User.Role.USER,null);
-//    private static final User author2 = new User(2L,"mickeymus","mmus@disney.com","",null, User.Role.ADMIN,null);
-
-
-    public PostsController(PostsRepository pr, UsersRepository ur, CategoriesRepository cr, EmailService ems) {
-        this.pr = pr;
-        this.ur = ur;
-        this.cr = cr;
-        this.ems = ems;
-    }
+@AllArgsConstructor
+@RequestMapping(value = "api/posts", headers = "Accept=application/json")
+public class MyController {
+    private final UsersRepository ur;
+    private final PostsRepository pr;
+    private final CategoriesRepository cr;
+    private final EmailService ems;
 
     @GetMapping
     private List<Post> getAll() {
