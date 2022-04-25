@@ -1,4 +1,5 @@
 import CreateView from "../createView.js"
+import {getHeaders,isLoggedIn} from "../auth.js";
 
 export default function Register(props) {
     return `
@@ -29,6 +30,7 @@ of the password input is "password."-->
 }
 
 export function RegisterEvent(){
+    console.log("Am I logged in?" + isLoggedIn());
     $("#register-btn").click(function(){
         //Set the properties for the new User object
         //based on the values in the input boxes; print the results

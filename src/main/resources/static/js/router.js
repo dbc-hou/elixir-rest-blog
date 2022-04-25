@@ -37,7 +37,7 @@ export default function router(URI) {
             state: {},
             uri: '/',
             title: "Logout",
-            viewEvent: LogoutEvent
+            viewEvent: logoutEvents
         },
         '/register': {
             returnView: Register,
