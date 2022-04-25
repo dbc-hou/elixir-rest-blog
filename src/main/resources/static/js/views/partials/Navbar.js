@@ -7,6 +7,7 @@ export default function Navbar(props) {
             <a href="/login" data-link>Login</a>
             <a href="/register" data-link>Register</a>
             <a href="/users" data-link>Your Account</a>
+            <a href="/login" data-link>Logout</a>
         </nav>
     `;
 }

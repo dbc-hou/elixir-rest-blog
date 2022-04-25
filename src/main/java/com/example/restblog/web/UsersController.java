@@ -4,6 +4,7 @@ import com.example.restblog.data.Post;
 import com.example.restblog.data.User;
 import com.example.restblog.data.UsersRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.Size;
@@ -40,6 +41,12 @@ public class UsersController {
     }
     @GetMapping("email")
     private User getByEmail(@RequestParam String email) {
+        return ur.findByEmail(email);
+    }
+
+    @GetMapping("me")
+    private User getMyInfo(OAuth2Authentication auth) {
+        String email = auth.getName(); // yes, the email is found under "getName()"
         return ur.findByEmail(email);
     }
 

@@ -3,6 +3,7 @@ package com.example.restblog.web;
 import com.example.restblog.data.*;
 import com.example.restblog.services.EmailService;
 import lombok.AllArgsConstructor;
+import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -36,12 +37,10 @@ public class MyController {
 
 
     @PostMapping
-    private void createPost(@RequestBody Post newPost) {
-        newPost.setAuthor(ur.getById(2L));
-        List<Category> categories = new ArrayList<>();
-        categories.add(cr.findCategoryByName("soccer"));
-        categories.add(cr.findCategoryByName("literature"));
-        newPost.setCategories(categories);
+    private void createPost(@RequestBody Post newPost, OAuth2Authentication auth) {
+        String email = auth.getName(); // yes, the email is found under "getName()"
+        User user = ur.findByEmail(email);
+        newPost.setAuthor(user);
         //Persist the post to the DB
         pr.save(newPost);
         System.out.println("Post created.");

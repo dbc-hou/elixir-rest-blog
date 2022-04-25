@@ -1,5 +1,6 @@
 import createView from "../createView.js";
 import fetchData from "../fetchData.js";
+import {getHeaders} from "../auth.js";
 
 var myMethod = "POST";
 var currentPostId;
@@ -17,8 +18,8 @@ export default function PostIndex(props) {
         <main>
 <!--Here is the list of posts. The map function substitutes for a for-each loop.-->
             <div id="posts-container" class="container-fluid">
-                ${props.posts.map(post => `<h3 class="fw-bold" id="title-${post.id}">${post.title}</h3>
-                    <h4 id="content-${post.id}">${post.content}</h4>
+                ${props.posts.map(post => `<h5 class="fw-bold" id="title-${post.id}">${post.title}</h5>
+                    <h6 id="content-${post.id}">${post.content}</h6>
                    
                     <a href="#" class="edit-link" data-id="${post.id}">Edit</a>
                     <a href="#" class="delete-link" data-id="${post.id}">Delete</a></p>`).join('')}   
@@ -60,7 +61,7 @@ function attachAddListener () {
         myPost.title = myTitle;
         myPost.content = myContent;
         myRequest.method = myMethod;
-        myRequest.headers = {'Content-Type': 'application/json'};
+        myRequest.headers = getHeaders();
         myRequest.body = JSON.stringify(myPost);
         if (myMethod == "PUT") {
             fetch("http://localhost:8081/api/posts/" + currentPostId, myRequest)
@@ -107,7 +108,7 @@ function attachDeleteListener() {
         const postId = $(this).data("id");
         const myRequest = {};
         myRequest.method = myMethod;
-        myRequest.headers = {'Content-Type': 'application/json'};
+        myRequest.headers = getHeaders();
         fetch("http://localhost:8081/api/posts/" + postId, myRequest)
             .then(res => {
                 console.log(res.status);
