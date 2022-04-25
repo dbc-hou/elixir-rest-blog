@@ -3,6 +3,7 @@ package com.example.restblog.web;
 import com.example.restblog.data.Post;
 import com.example.restblog.data.User;
 import com.example.restblog.data.UsersRepository;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.Size;
@@ -14,10 +15,12 @@ import java.util.*;
 
 public class UsersController {
     private final UsersRepository ur;
+    private final PasswordEncoder pe;
     private Collection<Post> posts;
 
-    public UsersController(UsersRepository ur) {
+    public UsersController(UsersRepository ur, PasswordEncoder pe) {
         this.ur = ur;
+        this.pe = pe;
     }
 
     private List<User> getAll() {
@@ -31,28 +34,28 @@ public class UsersController {
     private Optional<User> getByID(@PathVariable long userId) {
         return ur.findById(userId);
     }
-    @GetMapping("/username")
+    @GetMapping("username")
     private User getByUserName(@RequestParam String username) {
-        User newUser = new User();
-        newUser.setUsername(username);
-        return newUser;
+        return ur.findByUsername(username);
     }
-    @GetMapping("/email")
+    @GetMapping("email")
     private User getByEmail(@RequestParam String email) {
-        User newUser = new User();
-        newUser.setEmail(email);
-        return newUser;
+        return ur.findByEmail(email);
     }
 
     @PostMapping
     private void createUser(@RequestBody User newUser) {
         newUser.setRole(User.Role.USER);
+        String encryptedPassword = newUser.getPassword();
+        encryptedPassword = pe.encode(encryptedPassword);
+        newUser.setPassword(encryptedPassword);
         ur.save(newUser);
     }
 
     @PutMapping("{id}")
     private void updateUser(@PathVariable long id, @RequestBody User thisUser) {
-        System.out.println("User #" + id + " has been updated." + thisUser);
+//        System.out.println("User #" + id + " has been updated." + thisUser);
+//        ur.save(id, thisUser);
     }
 
     @PutMapping("{id}/password")
