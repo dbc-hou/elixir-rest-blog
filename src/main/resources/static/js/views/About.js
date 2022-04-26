@@ -1,3 +1,5 @@
+import {showNotification} from "../messaging.js";
+
 export default function About(props) {
     return `
         <header>
@@ -9,4 +11,8 @@ export default function About(props) {
             </div>
         </main>
     `;
+}
+
+export function AboutEvents() {
+    showNotification("Hello","success")
 }

@@ -1,3 +1,6 @@
+import {getUserRole} from "../auth.js";
+import {showNotification} from "../messaging.js";
+
 export default function Home(props) {
     console.log("The frontend did it. HER FAULT");
     return `
@@ -15,4 +18,9 @@ export default function Home(props) {
             </div>
         </main>
     `;
+}
+
+export function HomeEvents() {
+    const authority = getUserRole();
+    showNotification(authority,"info")
 }

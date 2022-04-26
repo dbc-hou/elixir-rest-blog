@@ -23,7 +23,6 @@ export default function PostIndex(props) {
             <div id="posts-container" class="card col-5">
                 ${props.posts.map(post => `<h5 class="fw-bold" id="title-${post.id}">${post.title}</h5>
                     <h6 id="content-${post.id}">${post.content}</h6>
-                   
                     <a href="#" class="edit-link" data-id="${post.id}">Edit</a>
                     <a href="#" class="delete-link" data-id="${post.id}">Delete</a></p>`).join('')}   
             </div>
@@ -31,7 +30,7 @@ export default function PostIndex(props) {
             <div class="card col-7" id="add-post">
                 <form id="add-post-form">
                     <div class="mb-3">
-                        <label for="add-post-title">Title</label>
+                        <label id="add-post-title-label" for="add-post-title">Title</label>
                         <input class="form-control" id="add-post-title" value="">
                     </div>
                     <div class="mb-3">
@@ -55,6 +54,20 @@ export function PostsEvent() {
     attachEditListener();
     attachClearListener();
     attachDeleteListener();
+}
+
+function validatePost() {
+    const title =  $("#add-post-title").val();
+    if (title.trim().length = 0) {
+        console.log("Title must not be blank.")
+        $("add-post-title").addClass("border border-danger");
+        $("add-post-title-label").addClass("border border-danger");
+        return false;
+    } else {
+        $("add-post-title").removeClass("border border-danger");
+        $("add-post-title-label").removeClass("border border-danger");
+        return true;
+    }
 }
 function attachAddListener () {
     $("#add-post-btn").click(function (e) {

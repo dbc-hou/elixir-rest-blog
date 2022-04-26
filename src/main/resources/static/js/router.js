@@ -12,6 +12,9 @@ import User from "./views/User.js"
 import {UsersEvent} from "./views/User.js"
 import Logout from "./views/Logout.js"
 import {logoutEvents} from "./views/Logout.js"
+import {HomeEvents} from "./views/Home.js";
+import {AboutEvents} from "./views/About.js";
+
 /**
  * Returns the route object for a specific route based on the given URI
  * @param URI
@@ -24,6 +27,7 @@ export default function router(URI) {
             state: {},
             uri: '/',
             title: 'Home',
+            viewEvent: HomeEvents
         },
         '/login': {
             returnView: Login,
@@ -60,6 +64,7 @@ export default function router(URI) {
             state: {},
             uri: '/about',
             title: 'About',
+            viewEvent: AboutEvents
         },
         '/users': {
             returnView: User,
