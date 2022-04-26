@@ -16,8 +16,11 @@ export default function PostIndex(props) {
 
 <!--The main section contains the list of posts and the add/edit form.-->
         <main>
+        <div class="container">
+        <div class="row align-items-start">
+
 <!--Here is the list of posts. The map function substitutes for a for-each loop.-->
-            <div id="posts-container" class="container-fluid">
+            <div id="posts-container" class="card col-5">
                 ${props.posts.map(post => `<h5 class="fw-bold" id="title-${post.id}">${post.title}</h5>
                     <h6 id="content-${post.id}">${post.content}</h6>
                    
@@ -25,7 +28,7 @@ export default function PostIndex(props) {
                     <a href="#" class="delete-link" data-id="${post.id}">Delete</a></p>`).join('')}   
             </div>
 <!--Here is the add/edit form.-->
-            <div class="container-fluid" id="add-post">
+            <div class="card col-7" id="add-post">
                 <form id="add-post-form">
                     <div class="mb-3">
                         <label for="add-post-title">Title</label>
@@ -35,12 +38,14 @@ export default function PostIndex(props) {
                         <label for="add-post-content">Content</label>
                         <textarea class="form-control" id="add-post-content" row="5" value=""></textarea>
                     </div>
-                    <div class="mb-4">
-                        <button class="btn btn-primary col-2" id="add-post-btn">Add Post</button>
-                        <button class="btn btn-primary col-2" id="clear-btn">Clear</button>
+                    <div class="mb-6">
+                        <button class="btn btn-primary" id="add-post-btn">Add Post</button>
+                        <button class="btn btn-primary" id="clear-btn">Clear Form</button>
                     </div>
                 </form>
             </div>
+        </div>
+        </div>
         </main>
     `;
 }
