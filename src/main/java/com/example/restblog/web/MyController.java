@@ -26,13 +26,13 @@ public class MyController {
     private final EmailService ems;
 
     @GetMapping
-    @PreAuthorize("hasAuthority('USER') || hasAuthority('ADMIN')")
-    public List<Post> getAll() {
-
-//        posts.add(new Post(1L, "Post 1", "Content goes here.",author1));
-//        posts.add(new Post(2L, "Post 2", "More content goes here.",author1));
-//        posts.add(new Post(3L, "Post 3", "A little more content goes here.",author2));
-        return pr.findAll();
+//    @PreAuthorize("hasAuthority('USER') || hasAuthority('ADMIN')")
+    public List<Post> getAll(OAuth2Authentication auth) {
+        if (auth == null) {
+            return pr.findAll();
+        }
+        User author = ur.findByEmail(auth.getName());
+        return pr.getPostsByAuthor(author);
     }
 
     //

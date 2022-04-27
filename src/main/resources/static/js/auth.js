@@ -48,7 +48,7 @@ export default function addLoginEvent() {
  * @returns {{Authorization: string, "Content-Type": string}|{"Content-Type": string}}
  */
 export function getHeaders() {
-    const token = localStorage.getItem("access_token");
+    const token = sessionStorage.getItem("access_token");
     return token
         ? {
             'Content-Type': 'application/json',
@@ -62,17 +62,17 @@ export function getHeaders() {
  */
 function setTokens(responseData) {
     if (responseData.route['access_token']) {
-        localStorage.setItem("access_token", responseData.route['access_token']);
+        sessionStorage.setItem("access_token", responseData.route['access_token']);
         console.log("Access token set");
     }
     if (responseData.route['refresh_token']) {
-        localStorage.setItem("refresh_token", responseData.route['refresh_token']);
+        sessionStorage.setItem("refresh_token", responseData.route['refresh_token']);
         console.log("Refresh token set")
     }
 }
 
 export function isLoggedIn() {
-    if (localStorage.getItem("access_token")) {
+    if (sessionStorage.getItem("access_token")) {
         return true;
     } else {
         return false;
@@ -80,7 +80,7 @@ export function isLoggedIn() {
 }
 
 export function getUserRole() {
-    const accessToken = localStorage.getItem("access_token");
+    const accessToken = sessionStorage.getItem("access_token");
     if(!accessToken) {
         return false;
     }

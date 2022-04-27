@@ -1,7 +1,7 @@
 import {isLoggedIn} from "../../auth.js";
 
 export default function Navbar(props) {
-    const loggedIn = isLoggedIn();
+    let loggedIn = isLoggedIn();
 
     // everyone can see home
     let html = `
@@ -9,10 +9,9 @@ export default function Navbar(props) {
             <div class="container row d-inline-flex justify-content-center">
                 <a class="btn btn-success rounded-pill col-2" href="/" data-link>Home </a>`;
 
+    html = html + `<a class="btn btn-success rounded-pill col-2" href="/posts" data-link>Posts </a>`;
+
     // only logged in can see posts
-    if(loggedIn) {
-        html = html + `<a class="btn btn-success rounded-pill col-2" href="/posts" data-link>Posts </a>`;
-    }
 
     // everyone can see about
     html = html + `<a class="btn btn-success rounded-pill col-2" href="/about" data-link>About </a>`;

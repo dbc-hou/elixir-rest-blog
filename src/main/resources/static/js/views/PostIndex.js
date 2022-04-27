@@ -21,7 +21,7 @@ export default function PostIndex(props) {
 
 <!--Here is the list of posts. The map function substitutes for a for-each loop.-->
             <div id="posts-container" class="card col-5">
-                ${props.posts.map(post => `<h5 class="fw-bold" id="title-${post.id}">${post.title}</h5>
+                ${props.posts.map(post => `<h5 class="fw-bold" id="title-${post.id}">${post.title} by ${post.author_id}</h5>
                     <h6 id="content-${post.id}">${post.content}</h6>
                     <a href="#" class="edit-link" data-id="${post.id}">Edit</a>
                     <a href="#" class="delete-link" data-id="${post.id}">Delete</a></p>`).join('')}   

@@ -11,4 +11,6 @@ public interface PostsRepository extends JpaRepository<Post, Long> {
 
     List<Post> searchByTitleLike(@RequestParam String keyword);
 
+    List<Post> getPostsByAuthor(User author);
+
 }
