@@ -79,6 +79,22 @@ export function isLoggedIn() {
     }
 }
 
+export function getUser() {
+    const accessToken = sessionStorage.getItem("access_token");
+    if(!accessToken) {
+        return false;
+    }
+    const parts = accessToken.split('.');
+    const payload = parts[1];
+    const decodedPayload = atob(payload);
+    const payloadObject = JSON.parse(decodedPayload);
+    const user = {
+        userName: payloadObject.user_name,
+        role: payloadObject.authorities[0]
+    }
+    return user;
+}
+
 export function getUserRole() {
     const accessToken = sessionStorage.getItem("access_token");
     if(!accessToken) {

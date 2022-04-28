@@ -1,6 +1,6 @@
 import createView from "../createView.js";
 import fetchData from "../fetchData.js";
-import {getHeaders} from "../auth.js";
+import {getHeaders, getUser} from "../auth.js";
 
 var myMethod = "POST";
 var currentPostId;
@@ -54,6 +54,17 @@ export function PostsEvent() {
     attachEditListener();
     attachClearListener();
     attachDeleteListener();
+    console.log(getUser());
+
+    if(getUser()) {
+        $("#add-post").show();
+        $(".edit-link").show();
+        $(".delete-link").show();
+    } else {
+        $("#add-post").hide();
+        $(".edit-link").hide();
+        $(".delete-link").hide();
+    }
 }
 
 function validatePost() {
