@@ -15,10 +15,10 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-@CrossOrigin
-@RestController
-@AllArgsConstructor
-@RequestMapping(value = "api/posts", headers = "Accept=application/json")
+    @CrossOrigin
+    @RestController
+    @AllArgsConstructor
+    @RequestMapping(value = "api/posts", headers = "Accept=application/json")
 public class MyController {
     private final UsersRepository ur;
     private final PostsRepository pr;

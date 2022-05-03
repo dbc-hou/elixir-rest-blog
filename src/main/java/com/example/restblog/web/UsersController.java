@@ -84,6 +84,7 @@ public class UsersController {
 
     @DeleteMapping("{id}")
     private void deleteUser(@PathVariable long id) {
+
         System.out.println("User #" + id + " has been deleted.");
     }
 
