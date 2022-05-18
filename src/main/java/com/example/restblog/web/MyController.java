@@ -42,6 +42,11 @@ public class MyController {
         return pr.getById(postId);
     }
 
+    @GetMapping("{category}")
+    public List<Post> getAllPostsByCategory(@PathVariable Long categoryId) {
+        Category postCategory = cr.getById(categoryId);
+        return pr.getPostsByCategory(postCategory);
+    }
 
     @PostMapping
     public void createPost(@RequestBody Post newPost, OAuth2Authentication auth) {
@@ -70,11 +75,6 @@ public class MyController {
         Post postToDelete = pr.getById(id);
         pr.delete(postToDelete);
         System.out.println("Post #" + id + " deleted.");
-    }
-
-    @GetMapping("searchPostsByCategory")
-    public List<Post> searchPostsByCategory(@RequestParam String category) {
-        return pr.getPostsByCategories(cr.findCategoryByName(category));
     }
 
     private List<Post> searchPostsByKeyword(@RequestParam String term) {

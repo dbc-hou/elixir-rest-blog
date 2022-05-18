@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface PostsRepository extends JpaRepository<Post, Long> {
 
-    List<Post> getPostsByCategories(Category category);
+    List<Post> getPostsByCategory(Category category);
 
     List<Post> searchByTitleLike(@RequestParam String keyword);
 
